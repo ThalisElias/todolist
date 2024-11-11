@@ -3,6 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const addTaskButton = document.getElementById("add-task");
   const taskTableBody = document.querySelector(".task-table tbody");
 
+  function saveTasksToLocalStorage() {
+    const tasks = [];
+    //iteração sobre cada linha da tabela
+    taskTableBody.querySelectorAll("tr").forEach((row) => {
+      //extração de dados
+      const tastText = row.querySelector("td:nth-child(1)").textContent;
+      const dateAdded = row.querySelector("td:nth-child(2)").textContent;
+      const dateCompleted = row.querySelector("td:nth-child(3)").textContent;
+      const isCompleted = row.classList.contains("completed");
+      //criação de um objeto para cada tasks
+      taskInput.push({
+        tastText,
+        dateAdded,
+        dateCompleted,
+        isCompleted,
+      });
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
   function addTask() {
     const taskText = taskInput.value.trim(); //Remove espaços em branco extras
     if (taskText !== "") {
@@ -44,9 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const completedAno = completedDate.getFullYear();
           const formattedCompletedDate = `${completedData}/${completedMes}/${completedAno}`;
           dateCompletedCell.textContent = formattedCompletedDate;
+          saveTasksToLocalStorage();
         } else {
           // Se a tarefa for desmarcada, limpa a data de conclusão
           dateCompletedCell.textContent = "";
+          saveTasksToLocalStorage();
         }
       });
       // Criar o botão de deletar
@@ -56,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       deleteButton.classList.add("delete-task");
       deleteButton.addEventListener("click", () => {
         row.remove();
+        saveTasksToLocalStorage();
       });
       // Adicionar as células à linha
       row.appendChild(taskCell);
@@ -85,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }).showToast();
       return;
     }
+    saveTasksToLocalStorage();
   }
   addTaskButton.addEventListener("click", addTask);
   taskInput.addEventListener("keydown", (event) => {
