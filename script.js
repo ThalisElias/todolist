@@ -1,7 +1,80 @@
 document.addEventListener("DOMContentLoaded", () => {
+  loadTasksFromLocalStorage();
   const taskInput = document.getElementById("task-input");
   const addTaskButton = document.getElementById("add-task");
   const taskTableBody = document.querySelector(".task-table tbody");
+
+  function loadTasksFromLocalStorage() {
+    // Recupera as tarefas do localStorage ou um array vazio se não houver nada
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    // Itera sobre cada tarefa recuperada
+    tasks.forEach((task) => {
+      // Cria uma nova linha para a tabela
+      const row = document.createElement("tr");
+
+      //criar a coluna da tarefa e recebe a tarefa
+      const taskCell = document.createElement("td");
+      taskCell.textContent = task.taskText;
+
+      //criar a coluna da data e recebe a data de inicio
+      const dateAddedCell = document.createElement("td");
+      dateAddedCell.textContent = task.dateAdded;
+
+      //criar a coluna da data e recebe a data de conconlusao
+      const dateCompletedCell = document.createElement("td");
+      dateCompletedCell.textContent = task.dateCompleted;
+
+      // criar a td e a div para colocar os botoes denttro
+      const buttonCell = document.createElement("td");
+      const buttonContainer = document.createElement("div");
+      buttonCell.classList.add("flex");
+
+      // criar o botao de concluindo
+      const completeButton = document.createElement("button");
+      completeButton.textContent = "✔";
+      completeButton.classList.add("complete-task");
+      // se a tarefa foi concluida adcionar a classe completed
+      if (task.isCompleted) {
+        row.classList.add("completed");
+        completeButton.classList.add("completed");
+      }
+      // marcar com conluido/desmarcar
+      completeButton.addEventListener("click", () => {
+        row.classList.toggle("completed");
+        completeButton.classList.toggle("completed");
+        if (row.classList.contains("completed")) {
+          const completedDate = new Date();
+          const completedData = completedDate.getDate();
+          const completedMes = completedDate.getMonth();
+          const completedAno = completedDate.getFullYear();
+          const formattedCompletedDate = `${completedData}/${completedMes}/${completedAno}`;
+          dateCompletedCell.textContent = formattedCompletedDate;
+        } else {
+          dateCompletedCell.textContent = "";
+        }
+        saveTasksToLocalStorage();
+      });
+      // criar o botao deletar
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "X";
+      deleteButton.classList.add("delete-task");
+      deleteButton.addEventListener("click", () => {
+        row.remove();
+        saveTasksToLocalStorage();
+      });
+      //adcionar os botoes dentro
+      buttonContainer.appendChild(completeButton);
+      buttonContainer.appendChild(deleteButton);
+      buttonCell.appendChild(buttonContainer);
+      //adciona as celular nas linhas
+      row.appendChild(taskCell);
+      row.appendChild(dateAddedCell);
+      row.appendChild(dateCompletedCell);
+      row.appendChild(buttonCell);
+      //adciona a linha
+      taskTableBody.appendChild(row);
+    });
+  }
 
   function saveTasksToLocalStorage() {
     const tasks = [];
@@ -13,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const dateCompleted = row.querySelector("td:nth-child(3)").textContent;
       const isCompleted = row.classList.contains("completed");
       //criação de um objeto para cada tasks
-      taskInput.push({
+      tasks.push({
         tastText,
         dateAdded,
         dateCompleted,
@@ -48,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const buttonContainer = document.createElement("div");
       buttonContainer.classList.add("flex");
       // Criar o botão de Concluir
-      const completeButtonCell = document.createElement("td");
       const completeButton = document.createElement("button");
       completeButton.textContent = "✔";
       completeButton.classList.add("complete-task");
@@ -72,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
       // Criar o botão de deletar
-      const deleteButtonCell = document.createElement("td");
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "x";
       deleteButton.classList.add("delete-task");
