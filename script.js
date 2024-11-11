@@ -5,47 +5,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const taskTableBody = document.querySelector(".task-table tbody");
 
   function loadTasksFromLocalStorage() {
-    // Recupera as tarefas do localStorage ou um array vazio se não houver nada
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    // Itera sobre cada tarefa recuperada
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || []; // Recupera as tarefas do localStorage ou um array vazio se não houver nada
+
     tasks.forEach((task) => {
-      // Cria uma nova linha para a tabela
-      const row = document.createElement("tr");
+      // Itera sobre cada tarefa recuperada
+      const row = document.createElement("tr"); // Cria uma nova linha para a tabela
 
-      //criar a coluna da tarefa e recebe a tarefa
+      // Criação da célula da tarefa
       const taskCell = document.createElement("td");
-      taskCell.textContent = task.taskText;
+      taskCell.textContent = task.taskText; // Adiciona o texto da tarefa
 
-      //criar a coluna da data e recebe a data de inicio
+      // Criação da célula da data de adição
       const dateAddedCell = document.createElement("td");
-      dateAddedCell.textContent = task.dateAdded;
+      dateAddedCell.textContent = task.dateAdded; // Adiciona a data de adição da tarefa
 
-      //criar a coluna da data e recebe a data de conconlusao
+      // Criação da célula da data de conclusão
       const dateCompletedCell = document.createElement("td");
-      dateCompletedCell.textContent = task.dateCompleted;
+      dateCompletedCell.textContent = task.dateCompleted; // Adiciona a data de conclusão (se houver)
 
-      // criar a td e a div para colocar os botoes denttro
+      // Criação da célula dos botões (concluir e excluir)
       const buttonCell = document.createElement("td");
       const buttonContainer = document.createElement("div");
-      buttonCell.classList.add("flex");
+      buttonContainer.classList.add("flex");
 
-      // criar o botao de concluindo
+      // Criação do botão de concluir
       const completeButton = document.createElement("button");
-      completeButton.textContent = "✔";
+      completeButton.textContent = "✔"; // Texto do botão
       completeButton.classList.add("complete-task");
-      // se a tarefa foi concluida adcionar a classe completed
+
+      // Se a tarefa foi concluída, marca a linha e o botão como concluído
       if (task.isCompleted) {
         row.classList.add("completed");
         completeButton.classList.add("completed");
       }
-      // marcar com conluido/desmarcar
+
+      // Lógica do botão de concluir (marca como concluído/desmarca)
       completeButton.addEventListener("click", () => {
-        row.classList.toggle("completed");
-        completeButton.classList.toggle("completed");
+        row.classList.toggle("completed"); // Alterna a classe 'completed' na linha
+        completeButton.classList.toggle("completed"); // Alterna a classe 'completed' no botão
+
+        // Atualiza a data de conclusão se a tarefa for concluída
         if (row.classList.contains("completed")) {
           const completedDate = new Date();
           const completedData = completedDate.getDate();
-          const completedMes = completedDate.getMonth();
+          const completedMes = completedDate.getMonth() + 1;
           const completedAno = completedDate.getFullYear();
           const formattedCompletedDate = `${completedData}/${completedMes}/${completedAno}`;
           dateCompletedCell.textContent = formattedCompletedDate;
@@ -54,24 +57,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         saveTasksToLocalStorage();
       });
-      // criar o botao deletar
+      // Criação do btão de deletar
       const deleteButton = document.createElement("button");
-      deleteButton.textContent = "X";
+      deleteButton.textContent = "x"; // Texto do botão de excluir
       deleteButton.classList.add("delete-task");
       deleteButton.addEventListener("click", () => {
-        row.remove();
-        saveTasksToLocalStorage();
+        row.remove(); // Remove a linha da tabela
+        saveTasksToLocalStorage(); // Salva as alterações no localStorage
       });
-      //adcionar os botoes dentro
+      // Adiciona os botões dentro do container de botões
       buttonContainer.appendChild(completeButton);
       buttonContainer.appendChild(deleteButton);
       buttonCell.appendChild(buttonContainer);
-      //adciona as celular nas linhas
+      // Adiciona as células na linha
       row.appendChild(taskCell);
       row.appendChild(dateAddedCell);
       row.appendChild(dateCompletedCell);
       row.appendChild(buttonCell);
-      //adciona a linha
+      // Adiciona a linha à tabela
       taskTableBody.appendChild(row);
     });
   }
@@ -81,13 +84,13 @@ document.addEventListener("DOMContentLoaded", () => {
     //iteração sobre cada linha da tabela
     taskTableBody.querySelectorAll("tr").forEach((row) => {
       //extração de dados
-      const tastText = row.querySelector("td:nth-child(1)").textContent;
+      const taskText = row.querySelector("td:nth-child(1)").textContent;
       const dateAdded = row.querySelector("td:nth-child(2)").textContent;
       const dateCompleted = row.querySelector("td:nth-child(3)").textContent;
       const isCompleted = row.classList.contains("completed");
       //criação de um objeto para cada tasks
       tasks.push({
-        tastText,
+        taktText,
         dateAdded,
         dateCompleted,
         isCompleted,
