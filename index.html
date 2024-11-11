@@ -11,11 +11,45 @@
 <body>
   <div class="container">
     <h1>Minha Lista de Tarefas</h1>
-    <input type="text" id="task-input" placeholder="Adicione uma nova tarefa">
-    <button id="add-task">Adicionar</button>
-    <ul id="task-list"></ul>
+    <input type="text" id="task-input" class="task-input" placeholder="Adicione uma nova tarefa">
+    <button id="add-task" class="add-task">Adicionar</button>
+    <div class="task-table" id="task-table">
+      <table>
+        <thead>
+          <tr>
+            <th class="cabecalho_tabela">Meta</th>
+            <th class="cabecalho_tabela">Data de Inicio</th>
+            <th class="cabecalho_tabela">Data de Conclusão</th>
+            <th class="cabecalho_tabela"></th>
+          </tr>
+        </thead>
+        <tbody class="task-list" id="task-list">
+          <tr>
+            <td>Testando a ToDoList para ver como fica</td>
+            <td>24/12/2024</td>
+            <td>-</td>
+            <td>
+              <div class="flex">
+                <button class="complete-task" id="complete-task">✔</button>
+                <button class="delete-task" id="delete-task">X</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="completed">Testando a ToDoList para ver como fica</td>
+            <td>24/12/2024</td>
+            <td>-</td>
+            <td>
+              <div class="flex">
+                <button class="complete-task" id="complete-task">✔</button>
+                <button class="delete-task" id="delete-task">X</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 
