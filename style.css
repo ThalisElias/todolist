@@ -90,3 +90,7 @@ h1 {
   color: #888;
   text-decoration: line-through;
 }
+.complete-task.completed {
+  background-color: #d3d3d3;
+  color: #888;
+}
