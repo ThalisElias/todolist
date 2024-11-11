@@ -108,13 +108,30 @@ li {
   align-items: center;
 }
 li button {
-  background-color: red;
+  background-color: #ff0000;
   color: white;
   border: none;
-  border-radius: 100%;
-  padding: 0.4rem 1rem;
+  border-radius: 50%; /* ou 100% para manter o botão redondo */
+  width: 30px; /* Largura e altura fixas para manter o botão circular */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  font-size: 1rem; /* Ajuste conforme necessário */
+  padding: 0; /* Remove o padding para centralizar o "X" */
 }
+
 li button:hover {
-  background-color: darkred;
+  background-color: #8b0000;
+}
+li.completed {
+  text-decoration: line-through; /* Risca o texto */
+  background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo opaca */
+  color: black; /* Cor do texto mais escura */
+}
+
+li.completed button {
+  background-color: grey; /* Botão desabilitado visualmente */
+  cursor: not-allowed; /* Não permite clicar no botão de "Concluir" se a tarefa estiver concluída */
 }

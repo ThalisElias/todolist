@@ -6,8 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveTasks() {
     const tasks = [];
     //interaje sobre os itens de tarefa para obter o texto de cada um
-    taskList.querySelectorAll("li").forEach((task) => {
-      tasks.push(task.firstChild.textContent); // armaze apenas o texto ignorando o botão deletar
+    taskList.querySelectorAll("li").forEach((taskItem) => {
+      const taskText =
+        taskItem.firstChild.textContent.split(" (Adicionada em: ")[0];
+      const taskDate = taskItem.firstChild.textContent
+        .split(" (Adicionada em: ")[1]
+        .slice(0, -1); // Extrai apenas a data
+      // Adiciona a tarefa e a data como um objeto no array tasks
+      tasks.push({ text: taskText, date: taskDate });
     });
     localStorage.setItem("tasks", JSON.stringify(tasks)); // Salva como uma string JSON
   }
@@ -16,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tasks = JSON.parse(localStorage.getItem("tasks" || "[]")); //pega a lista ou array vazio
     tasks.forEach((taskText) => {
       const li = document.createElement("li"); // Cria um novo elemento <li>
-      li.textContent = taskText;
+      li.textContent = `${task.text} (Adicionada em: ${task.date})`;
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "X";
       deleteButton.addEventListener("click", () => {
@@ -34,15 +40,30 @@ document.addEventListener("DOMContentLoaded", () => {
     if (taskText !== "") {
       // Criar a nova tarefa
       const li = document.createElement("li");
-      li.textContent = taskText;
+      // Obtém a data e formata como uma string legível (ex: "10/11/2024")
+      const currentDate = new Date();
+      const data = currentDate.getDate();
+      const mes = currentDate.getMonth() + 1;
+      const ano = currentDate.getFullYear();
+      const formattedDate = `${data}/${mes}/${ano}`;
+      // Inclui a data e o texto da tarefa
+      li.textContent = `${taskText} (Adicionada em: ${formattedDate})`;
       //cria o botão de excluir
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "X";
       deleteButton.addEventListener("click", () => {
         li.remove();
       });
+      //botao para marcar como concluida
+      const completeButton = document.createElement("button");
+      completeButton.textContent = "✔";
+      completeButton.addEventListener("click", () => {
+        li.classList.toggle("completed");
+        saveTasks();
+      });
+      //adciona o botao de deletar ao item da lista
+      li.appendChild(completeButton);
       //adciona o botao de excluir ao item de lista
-      //appendChild coloca o elemento dentro dentro do li
       li.appendChild(deleteButton);
       //adciona a nova tarefa a lista
       taskList.appendChild(li);
