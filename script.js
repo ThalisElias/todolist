@@ -46,16 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
           dateCompletedCell.textContent = formattedCompletedDate;
         } else {
           // Se a tarefa for desmarcada, limpa a data de conclusão
-          dateCompletedCell.textContent = "-";
+          dateCompletedCell.textContent = "";
         }
       });
-      // Criar o botão de Concluir
+      // Criar o botão de deletar
       const deleteButtonCell = document.createElement("td");
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "x";
       deleteButton.classList.add("delete-task");
       deleteButton.addEventListener("click", () => {
-        row.classList.toggle("completed"); // Marca a linha como concluída
+        row.remove();
       });
       // Adicionar as células à linha
       row.appendChild(taskCell);

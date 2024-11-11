@@ -11,10 +11,12 @@ body {
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 h1 {
   text-align: center;
   color: #333;
+  font-size: 2rem;
 }
 .task-input {
   width: 75%;
@@ -22,6 +24,7 @@ h1 {
   margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 1rem;
 }
 .add-task {
   padding: 10px;
@@ -31,6 +34,7 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 1rem;
 }
 .add-task:hover {
   background-color: #45a049;
@@ -39,6 +43,7 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  table-layout: fixed;
 }
 .cabecalho_tabela,
 .task-table td {
@@ -56,9 +61,12 @@ h1 {
   background-color: #f1f1f1;
 }
 .flex {
+  max-width: 100%;
   display: flex;
+  justify-content: center;
   gap: 1rem;
 }
+
 .complete-task,
 .delete-task {
   width: 30px;
@@ -93,4 +101,38 @@ h1 {
 .complete-task.completed {
   background-color: #d3d3d3;
   color: #888;
+}
+
+@media (max-width: 600px) {
+  .flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .task-input {
+    width: 60%;
+    margin-bottom: 10px;
+    padding: 12px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .task-table {
+    display: block;
+    overflow-x: auto;
+  }
+  .task-table table {
+    min-width: 600px;
+  }
+  .cabecalho_tabela,
+  .task-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+  .complete-task,
+  .delete-task {
+    font-size: 16px;
+  }
+  .add-task {
+    padding: 12px;
+  }
 }
